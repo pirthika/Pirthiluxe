@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dresses Collection - Pirthiluxe</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f25278;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: black;
+            padding: 15px;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ffcc00;
+        }
+        nav span {
+            background: red;
+            color: white;
+            padding: 3px 7px;
+            border-radius: 50%;
+            font-size: 14px;
+            margin-left: 5px;
+            display: none;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: black;
+            margin-top: 20px;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .item {
+            background: white;
+            width: 300px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .item:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .item img {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        .item h2 {
+            font-size: 22px;
+            color: black;
+        }
+        .item p {
+            font-size: 18px;
+            color: #666;
+        }
+        button {
+            background-color: #ffcc00;
+            border: none;
+            color: black;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #e6b800;
+        }
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: black;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body background="Images/aboutus.jpg">
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="cart.html">Cart <span id="cart-count">0</span></a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Customer Service</a>
+    </nav>
+
+    <h1>Dress Collection</h1>
+    <div class="grid">
+        <div class="item">
+            <img src="Images/dress1.jpg" alt="Dress 1">
+            <h2>Floral Summer Dress</h2>
+            <p>$29.99</p>
+            <button onclick="addToCart('Floral Summer Dress', 29.99, 'Images/dress1.jpg')">Add to Cart</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/dress2.jpg" alt="Dress 2">
+            <h2>Elegant Black Dress</h2>
+            <p>$39.99</p>
+            <button onclick="addToCart('Elegant Black Dress', 39.99, 'Images/dress2.jpg')">Add to Cart</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/dress3.jpg" alt="Dress 3">
+            <h2>Casual White Dress</h2>
+            <p>$25.99</p>
+            <button onclick="addToCart('Casual White Dress', 25.99, 'Images/dress3.jpg')">Add to Cart</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/dress4.jpg" alt="Dress 4">
+            <h2>Red Party Dress</h2>
+            <p>$49.99</p>
+            <button onclick="addToCart('Red Party Dress', 49.99, 'Images/dress4.jpg')">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">Item added to cart!</div>
+
+    <script>
+        function addToCart(name, price, image) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let itemIndex = cart.findIndex(item => item.name === name);
+
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1, image });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartCount();
+            showNotification(`${name} added to cart!`);
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            let cartCount = document.getElementById("cart-count");
+
+            cartCount.textContent = totalItems;
+            cartCount.style.display = totalItems > 0 ? "inline" : "none";
+        }
+        function showNotification(message) {
+            let notification = document.getElementById("notification");
+            notification.textContent = message;
+            notification.style.display = "block";
+
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 2000);
+        }
+
+        document.addEventListener("DOMContentLoaded", updateCartCount);
+    </script>
+
+</body>
+</html>

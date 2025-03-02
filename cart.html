@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Pirthiluxe</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: black;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .header a {
+            color: white;
+            margin: 20px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .header a:hover {
+            color: #ffcc00;
+        }
+        .container {
+            width: 80%;
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .cart-table th, .cart-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .cart-table th {
+            background-color: white;
+            color: black;
+        }
+        .cart-table img {
+            border-radius: 10px;
+            width: 50px;
+            height: auto;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #ff512f, #dd2476);
+            color: white;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .btn:hover {
+            background: linear-gradient(to right, #dd2476, #ff512f);
+        }
+        .quantity-btn, .remove-btn {
+            padding: 8px 12px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .quantity-btn {
+            background: white;
+            color: black;
+        }
+        .quantity-btn:hover {
+            background: white;
+        }
+        .remove-btn {
+            background: white;
+            color: black;
+        }
+        .remove-btn:hover {
+            background: #c82333;
+        }
+        select {
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .progress-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 70px;
+        }
+        .progress-step {
+            background: #ddd;
+            padding: 10px 20px;
+            border-radius: 50%;
+            font-weight: bold;
+            text-align: center;
+        }
+        .progress-line {
+            width: 50px;
+            height: 5px;
+            background: #ddd;
+            margin: 0 5px;
+        }
+        .active {
+            background: white;
+            color: black;
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+    </style>
+</head>
+<body background="Images/aboutus.jpg">
+
+    <div class="header">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Customer Service</a>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-step active" id="stepCart">Cart</div>
+        <div class="progress-line"></div>
+        <div class="progress-step" id="stepAddress">Address</div>
+        <div class="progress-line"></div>
+        <div class="progress-step" id="stepPayment">Payment</div>
+    </div>
+    <div class="container step active" id="step1">
+        <h2>🛒 Your Shopping Cart</h2>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Image</th>
+                    <th>Size</th>
+                    <th>Color</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items"></tbody>
+        </table>
+        
+        <p><strong>Total Price: $<span id="total-price">0.00</span></strong></p>
+        <button class="btn" onclick="nextStep()">Proceed</button>
+    </div>
+    <div class="container step" id="step2">
+        <h2>📦 Enter Delivery Address</h2>
+        <input type="text" id="address" placeholder="Enter your address" required>
+        <button class="btn" onclick="nextStep()">Proceed to Payment</button>
+    </div>
+    <div class="container step" id="step3">
+        <h2>💳 Select Payment Method</h2>
+        <select id="payment-method" onchange="toggleQRCode()">
+            <option value="offline">Cash on Delivery</option>
+            <option value="online">Online Payment</option>
+        </select>
+
+        <div class="qr-code" id="qr-code" style="display: none;">
+            <h3>Scan to Pay</h3>
+            <img src="https://via.placeholder.com/200" alt="QR Code">
+        </div>
+
+        <button class="btn green" onclick="confirmOrder()">Confirm Order</button>
+    </div>
+
+    <script>
+        let stepIndex = 1;
+
+        function nextStep() {
+            document.getElementById(`step${stepIndex}`).classList.remove("active");
+            document.querySelectorAll(".progress-step")[stepIndex].classList.add("active");
+            stepIndex++;
+            document.getElementById(`step${stepIndex}`).classList.add("active");
+        }
+
+        function toggleQRCode() {
+            let payment = document.getElementById("payment-method").value;
+            document.getElementById("qr-code").style.display = payment === "online" ? "block" : "none";
+        }
+
+        function confirmOrder() {
+            alert("🎉 Order Confirmed! Your product will arrive soon.");
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartTable = document.getElementById("cart-items");
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                totalPrice += item.price * item.quantity;
+                cartTable.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td><img src="${item.image}" width="50"></td>
+                        <td>
+                            <select onchange="updateSize(${index}, this.value)">
+                                <option ${item.size === "S" ? "selected" : ""}>S</option>
+                                <option ${item.size === "M" ? "selected" : ""}>M</option>
+                                <option ${item.size === "L" ? "selected" : ""}>L</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select onchange="updateColor(${index}, this.value)">
+                                <option ${item.color === "Black" ? "selected" : ""}>Black</option>
+                                <option ${item.color === "Red" ? "selected" : ""}>Red</option>
+                                <option ${item.color === "Blue" ? "selected" : ""}>Blue</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            ${item.quantity}
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                        </td>
+                        <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                        <td><button class="remove-btn" onclick="removeFromCart(${index})">Remove</button></td>
+                    </tr>`;
+            });
+
+
+            document.getElementById("total-price").innerText = totalPrice.toFixed(2);
+        });
+
+        function updateQuantity(index, change) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    
+    if (cart[index]) {
+        cart[index].quantity += change;
+        if (cart[index].quantity < 1) {
+            cart[index].quantity = 1;
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        location.reload(); 
+    }
+}
+
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart"));
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            location.reload();
+        }
+    </script>
+
+</body>
+</html>

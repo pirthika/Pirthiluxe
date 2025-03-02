@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pirthiluxe - Eco-Friendly Shopping</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e48bb0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .nav-left img {
+            height: 60px;
+            width: auto;
+        }
+        .nav-left a {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        nav{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            padding: 40px;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #007BFF;
+        }
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 50px;
+            height: 600px;
+            background-color:#f25278;
+        }
+        .hero img {
+            max-width: 50%;
+            height: auto;
+            margin-top: 20px;
+            mix-blend-mode: multiply;
+        }
+        .hero-text {
+            max-width: 45%;
+            text-align: center;
+            color: #000;
+            font-size: 40px;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .btn {
+            display: inline-block;
+            background: #007BFF;
+            color: white;
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 30px;
+            margin-top: 20px;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <img src="Images/logo.png" height="80px" width="200px" class="nav-left">
+        <a href="#">Pirthiluxe</a>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="cart.html">Cart</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Customer Service</a>
+        <a href="login.html" id="login-btn">Log In</a>
+    </nav>
+    <div class="hero">
+        <img src="Images/Shopping Girl illustration silhouette style.jpg" alt="Shopping Illustration">
+        <div class="hero-text">
+            Shop Sustainably, Live Responsibly
+            <br>
+            <a href="#" class="btn" onclick="redirectToShop()">Shop Now</a>
+        </div>
+    </div>
+
+    <script>
+        function isLoggedIn() {
+            return localStorage.getItem("loggedIn") === "true";
+        }
+
+        function redirectToShop() {
+            if (isLoggedIn()) {
+                window.location.href = "shop.html"; 
+            } else {
+                alert("Please log in first to access the shop.");
+                window.location.href = "login.html";
+            }
+        }
+
+        document.getElementById("login-btn").addEventListener("click", function () {
+            localStorage.setItem("loggedIn", "true"); 
+        });
+    </script>
+</body>
+</html>
